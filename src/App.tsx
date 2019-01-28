@@ -1,8 +1,8 @@
 import * as React from "react";
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from "styled-components";
 
 import { useHNTopStories, useHNStoriesData } from "./api";
-import Story from './components/Story';
+import Story from "./components/Story";
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -11,21 +11,25 @@ const GlobalStyles = createGlobalStyle`
     font-size: 16px;
     margin: 0px;
   }
-`
+`;
 
 const Titlebar = styled.div`
   background-color: #ff6600;
-  padding: .3rem .5rem;
+  padding: 0.3rem 0.5rem;
   h2 {
     font-size: 0.9rem;
     margin: 0px;
     padding: 0px;
   }
-`
+`;
 
-const App = () => {
+interface App {
+  storiesPerPage: number;
+}
+
+const App = ({ storiesPerPage }: App) => {
   const { loading, stories } = useHNTopStories();
-  const storiesData = useHNStoriesData(stories, 0, 20);
+  const storiesData = useHNStoriesData(stories, 0, storiesPerPage);
   return (
     <div>
       <GlobalStyles />
@@ -33,10 +37,11 @@ const App = () => {
         <h2>Hackernews hooks</h2>
       </Titlebar>
       {loading && <p>Getting stories...</p>}
+      {/* Show the stories or show a list of placeholders */}
       {storiesData && (
         <ul>
           {storiesData.map(story => (
-            <li key={story.time}>
+            <li>
               <Story {...story} />
             </li>
           ))}

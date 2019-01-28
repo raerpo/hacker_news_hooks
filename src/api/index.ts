@@ -22,6 +22,7 @@ function useHNTopStories(): TopStoriesAPIResponse {
 }
 
 export interface StoryData {
+  loading: boolean,
   by: string
   descendants: number
   id: number
@@ -33,8 +34,23 @@ export interface StoryData {
   url: string
 }
 
+const defaultStoryData: StoryData = {
+  loading: true,
+  by: '',
+  descendants: 0,
+  id: 0,
+  kids: [0],
+  score: 0,
+  time: 0,
+  title: '',
+  type: '',
+  url: ''
+}
+
 function useHNStoriesData(storiesIds: number[], offset = 0, range = 20): StoryData[] {
-  const [storiesData, setStoriesData] = useState([]);
+  // Little hack to create an empty array
+  const initialStoriesData: StoryData[] = '_'.repeat(range - 1).split('_').map(x => ({...defaultStoryData}));
+  const [storiesData, setStoriesData] = useState(initialStoriesData);
   if (!storiesIds) {
     return []
   }
@@ -42,7 +58,11 @@ function useHNStoriesData(storiesIds: number[], offset = 0, range = 20): StoryDa
     for (let i = offset; i < range; i++) {
       fetch(`${API_URL}item/${storiesIds[i]}.json`)
       .then(res => res.json())
-      .then(res => setStoriesData(stories => stories.concat(res)));
+      .then(res => setStoriesData(stories => {
+        let storiesCopy = [...stories];
+        storiesCopy[i] = {...res, loading: false};
+        return storiesCopy
+      }));
     }
   }, [])
   return storiesData;
