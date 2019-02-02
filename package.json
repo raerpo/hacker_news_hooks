@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/styled-components": "^4.1.6",
+    "date-fns": "^2.0.0-alpha.27",
     "parcel": "^1.11.0",
     "react": "^16.8.0-alpha.0",
     "react-dom": "^16.8.0-alpha.0",

@@ -23,6 +23,10 @@ const Titlebar = styled.div`
   }
 `;
 
+const StoryList = styled.ol`
+  list-style: decimal;
+`;
+
 interface App {
   storiesPerPage: number;
 }
@@ -39,13 +43,11 @@ const App = ({ storiesPerPage }: App) => {
       {loading && <p>Getting stories...</p>}
       {/* Show the stories or show a list of placeholders */}
       {storiesData && (
-        <ul>
-          {storiesData.map(story => (
-            <li>
-              <Story {...story} />
-            </li>
+        <StoryList>
+          {storiesData.map((story, index) => (
+            <Story {...story} key={`story-${index}`} />
           ))}
-        </ul>
+        </StoryList>
       )}
     </div>
   );
