@@ -31,7 +31,7 @@ export interface StoryData {
   time: number
   title: string
   type: string
-  url: string
+  url: string | undefined
 }
 
 const defaultStoryData: StoryData = {
@@ -55,7 +55,7 @@ function useHNStoriesData(storiesIds: number[], offset = 0, range = 20): StoryDa
     return []
   }
   useEffect(() => {
-    for (let i = offset; i < range; i++) {
+    for (let i = offset; i < range + offset; i++) {
       fetch(`${API_URL}item/${storiesIds[i]}.json`)
       .then(res => res.json())
       .then(res => setStoriesData(stories => {
@@ -64,7 +64,7 @@ function useHNStoriesData(storiesIds: number[], offset = 0, range = 20): StoryDa
         return storiesCopy
       }));
     }
-  }, [])
+  }, [offset])
   return storiesData;
 }
 

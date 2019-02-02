@@ -27,13 +27,21 @@ const StoryList = styled.ol`
   list-style: decimal;
 `;
 
+const MoreButton = styled.button`
+  margin: .5rem 1rem;
+`;
+
 interface App {
   storiesPerPage: number;
 }
 
 const App = ({ storiesPerPage }: App) => {
+  const [offset, useOffset] = React.useState(0);
   const { loading, stories } = useHNTopStories();
-  const storiesData = useHNStoriesData(stories, 0, storiesPerPage);
+  const storiesData = useHNStoriesData(stories, offset, storiesPerPage);
+  const getMoreStories = () => {
+    useOffset(offset + storiesPerPage)
+  }
   return (
     <div>
       <GlobalStyles />
@@ -49,6 +57,7 @@ const App = ({ storiesPerPage }: App) => {
           ))}
         </StoryList>
       )}
+      {storiesData && <MoreButton onClick={getMoreStories}>Load more</MoreButton>}
     </div>
   );
 };

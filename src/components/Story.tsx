@@ -33,7 +33,7 @@ const StoryLinkLoading = styled(StoryLink)`
 const StoryURL = styled.small`
   font-size: 0.8rem;
   color: #666;
-  margin-left: .3rem;
+  margin-left: 0.3rem;
   &:hover {
     text-decoration: underline;
   }
@@ -56,20 +56,20 @@ const Story = (props: StoryData) => {
     return (
       <StoryWrapper>
         <StoryTitle>
-          <StoryLinkLoading href='#'>...</StoryLinkLoading>
+          <StoryLinkLoading href="#">...</StoryLinkLoading>
         </StoryTitle>
-        <StorySubtitleLoading></StorySubtitleLoading>
+        <StorySubtitleLoading />
       </StoryWrapper>
     );
   }
-  const storyURL = new URL(props.url);
+  const storyURL = props.url ? new URL(props.url) : null;
   return (
     <StoryWrapper>
       <StoryTitle>
         <StoryLink href={props.url}>{props.title}</StoryLink>
-        <StoryURL>
-          ({`${storyURL.protocol}//${storyURL.hostname}`})
-        </StoryURL>
+        {storyURL && (
+          <StoryURL>({`${storyURL.protocol}//${storyURL.hostname}`})</StoryURL>
+        )}
       </StoryTitle>
       <StorySubtitle>
         {props.score} points by {props.by}{" "}
