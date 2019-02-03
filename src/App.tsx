@@ -57,7 +57,7 @@ const App = ({ storiesPerPage }: App) => {
           ))}
         </StoryList>
       )}
-      {storiesData && <MoreButton onClick={getMoreStories}>Load more</MoreButton>}
+      {!loading && <MoreButton onClick={getMoreStories}>Load more</MoreButton>}
     </div>
   );
 };
