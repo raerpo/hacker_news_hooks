@@ -1,8 +1,9 @@
 import * as React from "react";
 import styled, { createGlobalStyle } from "styled-components";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { useHNTopStories, useHNStoriesData } from "./api";
-import Story from "./components/Story";
+// import screens
+import HomePage from "./screens/HomePage";
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -23,42 +24,17 @@ const Titlebar = styled.div`
   }
 `;
 
-const StoryList = styled.ol`
-  list-style: decimal;
-`;
-
-const MoreButton = styled.button`
-  margin: .5rem 1rem;
-`;
-
-interface App {
-  storiesPerPage: number;
-}
-
-const App = ({ storiesPerPage }: App) => {
-  const [offset, useOffset] = React.useState(0);
-  const { loading, stories } = useHNTopStories();
-  const storiesData = useHNStoriesData(stories, offset, storiesPerPage);
-  const getMoreStories = () => {
-    useOffset(offset + storiesPerPage)
-  }
+const App = () => {
   return (
-    <div>
-      <GlobalStyles />
-      <Titlebar>
-        <h2>Hackernews hooks</h2>
-      </Titlebar>
-      {loading && <p>Getting stories...</p>}
-      {/* Show the stories or show a list of placeholders */}
-      {storiesData && (
-        <StoryList>
-          {storiesData.map((story, index) => (
-            <Story {...story} key={`story-${index}`} />
-          ))}
-        </StoryList>
-      )}
-      {!loading && <MoreButton onClick={getMoreStories}>Load more</MoreButton>}
-    </div>
+    <Router>
+      <div>
+        <GlobalStyles />
+        <Titlebar>
+          <h2>Hackernews hooks</h2>
+        </Titlebar>
+        <Route path="/" exact render={() => <HomePage storiesPerPage={20} />} />
+      </div>
+    </Router>
   );
 };
 

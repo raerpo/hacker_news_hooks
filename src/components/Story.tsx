@@ -10,7 +10,11 @@ const LoadingStory = styled.div`
 
 const StoryWrapper = styled.li`
   line-height: 1rem;
-  margin-bottom: 1rem;
+  padding: .5rem;
+  transition: all .2s ease-in-out;
+  &:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
 `;
 
 const StoryTitle = styled.p`
