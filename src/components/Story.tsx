@@ -67,6 +67,7 @@ const Story = (props: StoryData) => {
     );
   }
   const storyURL = props.url ? new URL(props.url) : null;
+  
   return (
     <StoryWrapper>
       <StoryTitle>
@@ -78,6 +79,7 @@ const Story = (props: StoryData) => {
       <StorySubtitle>
         {props.score} points by {props.by}{" "}
         {formatRelative(props.time * 1000, new Date())}
+        | {props.descendants} comments
       </StorySubtitle>
     </StoryWrapper>
   );
